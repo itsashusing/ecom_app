@@ -1,0 +1,66 @@
+{% extends 'mainapp/base.html' %}
+{% block bodyblock %}
+
+<div class="container my-2">
+    {% if object.get_total_sum > 0 %}  
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">S.N.</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in object.items.all %}
+                <tr>
+                    <th scope="row">{{forloop.counter}} </th>
+                    <td>{{order_item.item.title}} </td>
+                    {% if order_item.item.discount_price %}
+
+                    <td><del>{{order_item.item.price}}</del> {{order_item.item.discount_price}}</td>
+                    {% else %}
+                    <td>{{order_item.item.price}}</td>
+                    {% endif %}
+
+                    <!-- Plus & Minus button increasing  & decreasing quantity  -->
+
+                    <td>
+                        <a href="/remove_single_from_cart/{{order_item.item.slug}}"> <b style="font-size: 3rem;">-</b>
+                        </a> <b>{{order_item.quantity}}</b>
+                        <a href="/add-to-cart/{{order_item.item.slug}}"> <b style="font-size: 2rem;">+</b> </a>
+                    </td>
+
+
+
+                    {% if order_item.item.discount_price %}
+                    <td>{{order_item.get_total_discount_item_price}}<span class="badge badge-warning ml-2">Saving
+                            {{order_item.get_total_save}} </span> </td>
+
+                    {% else %}
+                    <td>{{order_item.get_total_item_price}} </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tr>
+                <td colspan="4"><b>Final Price</b></td>
+                <td> <b>{{object.get_total_sum}}</b>Rs. </td>
+            </tr>
+            <tr>
+                <td colspan="4"> <a class="btn btn-primary float-right" href=""> Homepage</a> </td>
+                <td> <a class="btn btn-success " href=""> Proceed</a> </td>
+            </tr>
+        </table>
+    </div>
+    {% else %}
+    <div class="container">
+        <h2> Your cart is empty.</h2>
+        <a class="btn btn-warning " href="/"> Continew shoping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

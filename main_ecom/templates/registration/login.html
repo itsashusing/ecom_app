@@ -1,0 +1,16 @@
+{% extends 'mainapp/base.html' %}
+{% block bodyblock %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 style="text-align: center;">Log-In</h1>
+    </div>
+    <div align="center" >
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="btn btn-outline-success" type="submit" value="Log-In">
+        </form>
+    </div>
+</div>
+{% endblock %}

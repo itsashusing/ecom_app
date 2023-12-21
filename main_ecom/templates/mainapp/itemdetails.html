@@ -1,0 +1,37 @@
+{% extends 'mainapp/base.html' %}
+{% block bodyblock %}
+
+{% if user.is_authenticated %}
+<div class="jumbotron">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Left side: Image -->
+        <img src="/static/image/pro3.jpg" alt="Product Image" class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <!-- Right side: Description -->
+        <h2>{{object.title}}</h2>
+        <p>{{object.discription}}</p>
+        {% if object.discount_price %}
+        <p><del class="text-muted">{{object.price}} </del> Price: {{object.discount_price}} Rs.</p>
+        {% else %}
+        <p>Price: {{object.price}} </p>
+        {% endif %}
+        <p> <span class="badge badge-{{object.get_label_display}}">{{object.get_category_display | title}}</span>
+        </p>
+        <a href="/add-to-cart/{{object.slug}}" class="btn btn-primary">Add to Cart</a>
+        <a href="/remove_from_cart/{{object.slug}}" class="btn btn-danger">Remove From Cart</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="container my-2">
+  <h1>First log in to view this page.</h1>
+  <a class="btn btn-primary btn-sm" href="/accounts/login">Log-In</a>
+
+</div>
+{% endif %}
+{% endblock %}
