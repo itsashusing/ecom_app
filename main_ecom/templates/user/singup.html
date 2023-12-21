@@ -1,17 +1,19 @@
 {% extends 'mainapp/base.html' %}
+{% load static %}
 {% block bodyblock %}
-
+<html>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</html>
 <div class="jumbotron">
     <div class="container">
-        <h1 style="text-align: center;">Log-In</h1>
+        <h1 style="text-align: center;">Sing-Up</h1>
     </div>
     <div align="center" >
         <form method="post">
             {% csrf_token %}
             {{form.as_p}}
-            <input class="btn btn-outline-success" type="submit" value="Log-In">
+            <input class="btn btn-outline-success" type="submit" value="Sing-Up">
         </form>
-        <small>Not have an account<a href="/signup"> click here</a></small>
     </div>
 </div>
 {% endblock %}
