@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+from user.models import BillingAddress
 # Create your models here.
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
@@ -65,13 +65,14 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
     start_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField()
+    billing_address = models.ForeignKey(
+        BillingAddress, on_delete=models.SET_NULL, blank=True, null=True)
 
     def get_total_sum(self):
         total = 0
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total
-    
 
     def __str__(self):
         return f'{self.user} '

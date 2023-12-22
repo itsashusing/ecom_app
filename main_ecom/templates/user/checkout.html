@@ -1,0 +1,21 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block bodyblock %}
+<html>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+</html>
+<div class="jumbotron">
+    <div class="container">
+        <h2 style="text-align: center;">Checkout Form</h2>
+    </div>
+    <div class="container ">
+        <form method="post" align="center">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="btn btn-outline-success" type="submit" value="Cash On delivery">
+        </form>
+
+    </div>
+</div>
+{% endblock %}
