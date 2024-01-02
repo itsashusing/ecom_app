@@ -1,0 +1,102 @@
+{% extends 'store/base.html' %}
+{% block bodyblock %}
+
+<section style="background-color: #d2c9ff;">
+    <div class="container py-5 ">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+
+                        <div class="row g-0">
+                            <div class="col-lg-8">
+
+                                <div class="p-5">
+
+
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        {% if cart_items %}
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <!-- <h6 class="mb-0 text-muted">3 items</h6> -->
+                                    </div>
+                                    <hr class="my-4">
+                                    <!-- Box start -->
+
+                                    {% for cart_item in cart_items %}
+                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <a href="/product/{{cart_item.product.category.slug}}/{{cart_item.product.slug}}">
+                                                <img src="{{cart_item.product.image.url}}" class="img-fluid rounded-3"
+                                                alt="Cotton T-shirt">
+                                            </a>
+                                            
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                            {% if cart_item.product.sale_price %}
+                                            <h6 class="text-muted">Rs. {{cart_item.product.sale_price}}-/</h6>
+                                            {% else %}
+                                            <h6 class="text-muted">Rs. {{cart_item.product.price}}-/</h6>
+                                            {% endif %}
+
+                                            <h6 class="text-black mb-0">{{cart_item.product.product_name}}</h6>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                            <!-- minus -->
+
+                                            <a href="{% url 'remove_cart' cart_item.product.id %}"
+                                                style="font-size: 1.8rem;" class="btn btn-link px-2">
+                                                <i class="bi bi-dash"></i>
+                                            </a>
+                                            <input type="text" disabled value="{{cart_item.quantity}}"
+                                                style="max-width: 2rem;" />
+                                            <!-- plus -->
+                                            <a href="{% url 'add_cart' cart_item.product.id %}"
+                                                style="font-size: 1.8rem;" class="btn btn-link px-2"><i
+                                                    class="bi bi-plus"></i>
+                                            </a>
+
+
+                                        </div>
+
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <h6 class="mb-0">Rs. {{cart_item.sub_total}}-/</h6>
+                                        </div>
+                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                            <a class="btn btn-danger"
+                                                href="{% url 'remove_cart_item' cart_item.product.id %}">Remove</a>
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-4">
+                                    {% endfor %}
+                                    <!-- Next Box -->
+                                    <h5 class="text-uppercase mb-3">Free Delivery 😍</h5>
+
+
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                        <h5>Rs. {{total}}-/</h5>
+                                    </div>
+
+                                    <button type="button" class="btn btn-dark btn-block btn-lg"
+                                        data-mdb-ripple-color="dark">Check-Out</button>
+
+                                </div>
+                                {% else %}
+                                <div class="ml-auto">
+                                    <h1 style="text-align: center;"> Your Cart is empty.</h1>
+                                    <a class="btn btn-warning ml-4" href="/">Continew Shopping</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

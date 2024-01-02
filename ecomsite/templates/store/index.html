@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block bodyblock %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shop in style</h1>
+            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+            <p class="lead fw-normal text-white-50 mb-0"><b>{{product_count}} </b> items found</p>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+            {% for product in page_obj %}
+
+            <div class="col mb-5">
+                <div class="card h-100">
+
+                    <!-- Product image-->
+
+                    <a href="/product/{{product.category.slug}}/{{product.slug}}">
+                        <img class="card-img-top" src="/media/{{product.image}}" alt="..." />
+                    </a>
+
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <a href="/product/{{product.category.slug}}/{{product.slug}}">
+                                <h5 class="fw-bolder">{{product.product_name}}</h5>
+                            </a>
+                            {% if product.sale_price %}
+                            <del>{{product.price}} </del><br>
+                            ₹ {{product.sale_price}}
+                            {% else %}
+                            ₹ {{product.price}}
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        {% if product.stock < 1 %} <div class="text-center">
+                            <a class="btn btn-outline-danger mt-auto"
+                                href="/product/{{product.category.slug}}/{{product.slug}}">Out of stock </a>
+                    </div>
+
+                    {% else %}
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto"
+                            href="/product/{{product.category.slug}}/{{product.slug}}">View </a>
+                    </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+    <!-- Pagination -->
+    <div class="ml-auto">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Previous</a>
+                </li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    </div>
+
+</section>
+
+{% endblock %}
